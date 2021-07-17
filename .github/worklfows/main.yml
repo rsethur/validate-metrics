@@ -1,5 +1,8 @@
-on: [push]
-
+on: 
+  workflow_dispatch:
+    inputs:
+      test:
+        default: test
 env:
   resource_id: /subscriptions/6560575d-fa06-4e7d-95fb-f962e74efd7a/resourceGroups/saferollout/providers/Microsoft.MachineLearningServices/workspaces/saferollout/onlineEndpoints/gpt-2/deployments/blue
   cli_version: 2.0.0a1
