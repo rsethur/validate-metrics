@@ -1,4 +1,4 @@
-name: 'Validate metrics'
+name: 'validate-metrics'
 description: 'Validate metrics from Azure Monitor'
 inputs:
   metric:
