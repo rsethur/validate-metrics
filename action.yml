@@ -1,0 +1,50 @@
+name: 'Validate metrics'
+description: 'Validate metrics from Azure Monitor'
+inputs:
+  metric:
+    description: name of the metric
+    required: True
+  aggregation:
+    description: type of aggregation
+    required: True
+  metrics_condition:
+    description: condition to compare metrics value and threshold, allowed lte (less than equals) and gte (greater tha equals)
+    required: True
+  interval:
+    description: interval e.g. PT1M
+    required: True
+    default: PT1M
+  threshold:
+    description: threshold value to compare the metric with
+    required: True
+  resource_id:
+    description: arm resource id of the resource
+    required: True
+  start_time:
+    description: date time in ISO 8601 format (default in UTC timezone) e.g 02-21-2021 21:14:00
+    required: False
+  end_time:
+    description: date time in ISO 8601 format (default in UTC timezone) e.g 02-21-2021 21:14:00
+    required: False
+  filter:
+    description: "Azure monitor chart filter condition. e.g.: deployment eq 'blue' and statusCodeClass ne '2xx'"
+    required: False
+  num_intervals:
+    description: required only when start and end date not provided. then this pulls the metrics for num_intervals time from current time
+    required: False
+  allow_empty_metrics:
+    description: if False will throw error incase metrics are not available for the given duration
+    required: False
+  chart_name:
+    description: file name for chart to save
+    required: False
+
+# outputs:
+#   random-number:
+#     description: "Random number"
+#     value: ${{ steps.random-number-generator.outputs.random-id }}
+runs:
+  using: "composite"
+  steps:
+    - run: python -m metrics.validate_metrics --chart_name ${{ inputs.chart_name }} --chart_save_path ${{ inputs.chart_save_path }} --metric ${{ inputs.metric }} --aggregation ${{ inputs.aggregation }} --metrics_condition ${{ inputs.metrics_condition }} --interval ${{ inputs.interval }} --num_intervals ${{ inputs.num_intervals }} --filter "${{ inputs.filter }}"  --threshold ${{ inputs.threshold }} --resource_id ${{ inputs.resource_id }}
+      shell: bash

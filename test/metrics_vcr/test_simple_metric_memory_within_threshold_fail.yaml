@@ -1,0 +1,74 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept:
+      - application/json
+      Accept-Encoding:
+      - gzip, deflate
+      Authorization:
+      - Bearer dummy
+      Connection:
+      - keep-alive
+      User-Agent:
+      - azsdk-python-azure-mgmt-monitor/2.0.0 Python/3.7.9 (Windows-10-10.0.18362-SP0)
+      x-ms-client-request-id:
+      - c55537d2-8dd7-11eb-9f1d-c8348e330cfe
+    method: GET
+    uri: https://management.azure.com/subscriptions/5f08d643-1910-4a38-a7c7-84a39d4f42e0/resourceGroups/sethurg/providers/Microsoft.MachineLearningServices/workspaces/sethucanary/onlineEndpoints/demo-endpoint/deployments/blue/providers/microsoft.insights/metrics?timespan=02-21-2021%2021%3A52%3A00%2F02-21-2021%2022%3A30%3A00&interval=PT1M&metricnames=MemoryUtilization&aggregation=Average&api-version=2018-01-01
+  response:
+    body:
+      string: !!binary |
+        H4sIAAAAAAAEAO29B2AcSZYlJi9tynt/SvVK1+B0oQiAYBMk2JBAEOzBiM3mkuwdaUcjKasqgcpl
+        VmVdZhZAzO2dvPfee++999577733ujudTif33/8/XGZkAWz2zkrayZ4hgKrIHz9+fB8/In7xR9Oq
+        aT96dO/B6KO2WOTNKlt+9OijvZ293e2dve293Td7u4/u7z3a2fmpu/6He4/u7eDDj0YfFcs2ry+z
+        kl57+Wb3C/qE/ljnHz363i/+qJjRp3eb9aSZ1sWqLaplc/f++c7B7NP9e9u7D3d3tvezewfb2YPp
+        g+0D+vXhbP98fy/fuVvnTbWup/nndbVeNXebvJ2v64u7q7q6LGZ53dz9opjWVVOdt+Mvsum8WObP
+        86xeFsuL14RMMc2bu1dV/ZaGg1/59Wm2zOrru9WypNany9mqIsybu7N8UW3n+if9tSqr60WObyY0
+        imiPZ8umuJhTi0Xe1sWUviIY9fVXbVEWP8gwSiJCe70iGnw0/Ba1WWYLavOLDcE+isEpq2lGf+az
+        nwwapX6rXzL6aFY0qzK7fppbSlPTlzmRcNlmF3lanacLeXHtXkzpf9kyLZZNmy2n+dgHmhZNWuer
+        qm7zWZq11DRPF8Vy3ebUXma8GRN+62VB/GO6og+YjfK6yBtmARptNsvajNqv+aPvE7L0N/32i7nt
+        6zZbrAiCz16G5whcdpnXNICPHt0f7/yS0cZX7r3/K/vv/8r993/l0/d/5cH7v3Lw/q88fM9XMCn0
+        v/d8Zff9X6H/ve8r7zv79Mr7zj698r6zT6+87+zTK+87+/TK+84+vfL+s7/7/rO/+/6zv0u4ve8r
+        7z/7u+8/+7vvP/u77z/7u+8/+7vvP/u77z/7e+8/+6Rk3vuV95/9vfef/b33n/2995/9vfef/b33
+        n/2995/9vejsf/+XkHHO67qqT6oZffbR6/WU/KfmI3wOZ4X9KfrceTW38L76Hpf1sQgB4+nV+QV5
+        HQQ7z5p23ezl62z10S/5fwA3RKwvoAoAAA==
+    headers:
+      Access-Control-Expose-Headers:
+      - Request-Context
+      Cache-Control:
+      - no-cache
+      Content-Encoding:
+      - gzip
+      Content-Type:
+      - application/json
+      Date:
+      - Fri, 26 Mar 2021 02:05:44 GMT
+      Request-Context:
+      - appId=cid-v1:bcaa5203-f1d9-4da9-94ff-ee790ed877ce
+      Server:
+      - Microsoft-IIS/10.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Transfer-Encoding:
+      - chunked
+      Vary:
+      - Accept-Encoding,Accept-Encoding
+      X-AspNet-Version:
+      - 4.0.30319
+      X-Content-Type-Options:
+      - nosniff
+      X-Powered-By:
+      - ASP.NET
+      x-ms-correlation-request-id:
+      - 48ffbcb7-483f-463d-a119-045bed5d5184
+      x-ms-ratelimit-remaining-subscription-reads:
+      - '11999'
+      x-ms-request-id:
+      - '{48ffbcb7-483f-463d-a119-045bed5d5184}'
+      x-ms-routing-request-id:
+      - WESTUS2:20210326T020544Z:48ffbcb7-483f-463d-a119-045bed5d5184
+    status:
+      code: 200
+      message: OK
+version: 1
