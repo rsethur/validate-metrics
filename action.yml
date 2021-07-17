@@ -38,6 +38,10 @@ inputs:
   chart_name:
     description: file name for chart to save
     required: False
+  chart_save_path:
+    description: path to save charts
+    required: true
+    default: chart_output
 
 # outputs:
 #   random-number:
