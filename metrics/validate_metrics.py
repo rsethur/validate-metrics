@@ -152,6 +152,9 @@ def is_threshold_breached(metric_value, threshold, metrics_condition):
 
 def main():
     parser = argparse.ArgumentParser()    
+    parser.add_argument('--tenant_id', type=str, required=True, help="azure tenant id")
+    parser.add_argument('--client_id', type=str, required=True, help="client id for service principal auth")
+    parser.add_argument('--client_secret', type=str, required=True, help="client secret for service principal auth")
     parser.add_argument('--metric', type=str, required=True, help="name of the metric")
     parser.add_argument('--aggregation', type=str, required=True, help="type of aggregation")
     parser.add_argument('--metrics_condition', type=str, required=True,choices=["lte","gte"], help="condition to compare metrics value and threshold: allowed lte (less than equals) and gte (greater tha equals)")
