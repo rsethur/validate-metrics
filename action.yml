@@ -52,6 +52,7 @@ runs:
   steps:
     - name: create venv if it does not exist
       run: |
+        pip list
         if [ ! -d "$action-env" ]; then
           echo "Creating venv"
           python -m venv action-env
@@ -62,10 +63,14 @@ runs:
           echo "venv already exists"          
         fi
         source action-env/bin/activate
+        pip list
       shell: bash
       working-directory: ${{ github.action_path }}      
          
-    - run: python -m metrics.validate_metrics --chart_name ${{ inputs.chart_name }} --chart_save_path ${{ inputs.chart_save_path }} --metric ${{ inputs.metric }} --aggregation ${{ inputs.aggregation }} --metrics_condition ${{ inputs.metrics_condition }} --interval ${{ inputs.interval }} --num_intervals ${{ inputs.num_intervals }} --filter "${{ inputs.filter }}"  --threshold ${{ inputs.threshold }} --resource_id ${{ inputs.resource_id }}
+    - run: |
+        pip list
+        source action-env/bin/activate
+        python -m metrics.validate_metrics --chart_name ${{ inputs.chart_name }} --chart_save_path ${{ inputs.chart_save_path }} --metric ${{ inputs.metric }} --aggregation ${{ inputs.aggregation }} --metrics_condition ${{ inputs.metrics_condition }} --interval ${{ inputs.interval }} --num_intervals ${{ inputs.num_intervals }} --filter "${{ inputs.filter }}"  --threshold ${{ inputs.threshold }} --resource_id ${{ inputs.resource_id }}
       shell: bash
       working-directory: ${{ github.action_path }}
     
