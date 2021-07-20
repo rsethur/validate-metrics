@@ -50,6 +50,16 @@ inputs:
 runs:
   using: "composite"
   steps:
+    - name: create conda env
+      run: conda create env -n validate-metrics -f environment.yml --yes
+      shell: bash
+      working-directory: ${{ github.action_path }}
+    
+    - name: activate conda env
+      run: conda activate validate-metrics
+      shell: bash
+      working-directory: ${{ github.action_path }}
+      
     - run: python -m metrics.validate_metrics --chart_name ${{ inputs.chart_name }} --chart_save_path ${{ inputs.chart_save_path }} --metric ${{ inputs.metric }} --aggregation ${{ inputs.aggregation }} --metrics_condition ${{ inputs.metrics_condition }} --interval ${{ inputs.interval }} --num_intervals ${{ inputs.num_intervals }} --filter "${{ inputs.filter }}"  --threshold ${{ inputs.threshold }} --resource_id ${{ inputs.resource_id }}
       shell: bash
       working-directory: ${{ github.action_path }}
