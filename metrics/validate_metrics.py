@@ -19,24 +19,27 @@ def cli_auth(subs_id):
 # Use this auth if CLI auth has any issues - not used currently
 # auth credintials is the dict containing access token. Refer here for example of the token: https://github.com/marketplace/actions/azure-login
 def sp_auth(auth_credentials):
-    os.environ["AZURE_TENANT_ID"] = auth_credentials["tenantId"]
-    os.environ["AZURE_CLIENT_ID"] = auth_credentials["clientId"]
-    os.environ["AZURE_CLIENT_SECRET"] = auth_credentials["clientSecret"]
+    os.environ["AZURE_TENANT_ID"] = auth_credentials["tenant_id"]
+    os.environ["AZURE_CLIENT_ID"] = auth_credentials["client_id"]
+    os.environ["AZURE_CLIENT_SECRET"] = auth_credentials["client_secret"]
     logging.log(msg=os.environ["AZURE_TENANT_ID"], level=logging.INFO)
     credentials = DefaultAzureCredential()
     logging.log(msg=credentials, level=logging.INFO)
     # create client
     monitor_client = MonitorManagementClient(
         credentials,
-        auth_credentials["subscriptionId"])
+        auth_credentials["subs_id"])
     return monitor_client
 
-def validate_metrics(metric, aggregation, filter, interval, threshold, metrics_condition, resource_id, num_intervals = None, start_time=None, end_time=None, chart_name = None, chart_save_path = "chart-output/", allow_empty_metrics=True):
+def validate_metrics(tenant_id, client_id, client_secret, metric, aggregation, filter, interval, threshold, metrics_condition, resource_id, num_intervals = None, start_time=None, end_time=None, chart_name = None, chart_save_path = "chart-output/", allow_empty_metrics=True):
     #todo: validate resource uri
     # Extract the subs id from the resource id. Sample resource id: "/subscriptions/xxxxxxx-1910-4a38-a7c7-84a39d4f42e0/resourceGroups/my-rg/providers/Microsoft.MachineLearningServices/workspaces/ws/onlineEndpoints/demo-endpoint"
     logging.info(f"Resource id: {resource_id}")
     subs_id = resource_id.split("/")[2]
-    monitor_client = cli_auth(subs_id)
+    #monitor_client = cli_auth(subs_id)
+    auth_credentials = {"tenant_id":tenant_id, "client_id": client_id, "client_secret": client_secret, "subs_id":subs_id}
+    monitor_client = sp_auth(subs_id)
+    
     
     logging.info(f"Metric: {metric}, Aggregation: {aggregation}, Interval: {interval}")
     if filter is not None:
