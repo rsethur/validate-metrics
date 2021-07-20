@@ -51,7 +51,7 @@ runs:
   using: "composite"
   steps:
     - name: create conda env
-      run: conda create env -n validate-metrics -f environment.yml --yes
+      run: conda env create -n validate-metrics -f environment.yml --yes
       shell: bash
       working-directory: ${{ github.action_path }}          
     
