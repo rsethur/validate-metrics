@@ -55,7 +55,7 @@ runs:
       shell: bash
       working-directory: ${{ github.action_path }}      
     - name: init conda env
-      run: conda init bash
+      run: source $(conda info --base)/etc/profile.d/conda.sh
       shell: bash
       working-directory: ${{ github.action_path }}    
     
