@@ -151,6 +151,14 @@ def is_threshold_breached(metric_value, threshold, metrics_condition):
     return True
 
 def main():
+    def nullable_string(val):
+        if not val:
+            return None
+        return val
+    def nullable_int(val):
+        if not val:
+            return None
+        return int(val)
     parser = argparse.ArgumentParser()    
     parser.add_argument('--tenant_id', type=str, required=True, help="azure tenant id for service principal auth")
     parser.add_argument('--client_id', type=str, required=True, help="client id for service principal auth")
@@ -158,16 +166,16 @@ def main():
     parser.add_argument('--metric', type=str, required=True, help="name of the metric")
     parser.add_argument('--aggregation', type=str, required=True, help="type of aggregation")
     parser.add_argument('--metrics_condition', type=str, required=True,choices=["lte","gte"], help="condition to compare metrics value and threshold: allowed lte (less than equals) and gte (greater tha equals)")
-    parser.add_argument('--start_time', type=str, required=False, help="date time in ISO 8601 format (default in UTC timezone) e.g: 02-21-2021 21:14:00")
-    parser.add_argument('--end_time', type=str, required=False, help="date time in ISO 8601 format (default in UTC timezone) e.g: 02-21-2021 21:14:00")
-    parser.add_argument('--filter', type=str, required=False, help="Azure monitor chart filter condition. e.g.: deployment eq 'blue' and statusCodeClass ne '2xx'")
+    parser.add_argument('--start_time', type=nullable_string, required=False, help="date time in ISO 8601 format (default in UTC timezone) e.g: 02-21-2021 21:14:00")
+    parser.add_argument('--end_time', type=nullable_string, required=False, help="date time in ISO 8601 format (default in UTC timezone) e.g: 02-21-2021 21:14:00")
+    parser.add_argument('--filter', type=nullable_string, required=False, help="Azure monitor chart filter condition. e.g.: deployment eq 'blue' and statusCodeClass ne '2xx'")
     parser.add_argument('--interval', type=str, required=True, default="PT1M",help="interval e.g. PT1M")
     parser.add_argument('--threshold', type=float, required=True, help="threshold value to compare the metric with")
     parser.add_argument('--resource_id', type=str, required=True, help="arm resource id of the resource")
-    parser.add_argument('--num_intervals', type=int, required=False, help="required only when start and end date not provided. then this pulls the metrics for num_intervals time from current time")
+    parser.add_argument('--num_intervals', type=nullable_int, required=False, help="required only when start and end date not provided. then this pulls the metrics for num_intervals time from current time")
     parser.add_argument('--allow_empty_metrics', type=bool, default=True, required=False, help="if False will throw error incase metrics are not available for the given duration")
-    parser.add_argument('--chart_name', type=str, required=False, help="file name for chart to save")
-    parser.add_argument('--chart_save_path', type=str, required=False, help="path to save the chart")
+    parser.add_argument('--chart_name', type=nullable_string, required=False, help="file name for chart to save")
+    parser.add_argument('--chart_save_path', type=nullable_string, required=False, help="path to save the chart")
     args = parser.parse_args()
     print(args)
     logging.basicConfig(level=logging.INFO)
