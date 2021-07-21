@@ -83,5 +83,5 @@ runs:
       working-directory: ${{ github.action_path }}
       env:
         TENANT_ID: ${{ inputs.tenant_id }}
-        CLIENT_ID: ${{ inputs.cliemt_id }}
+        CLIENT_ID: ${{ inputs.client_id }}
         CLIENT_SECRET: ${{ inputs.client_secret }}
