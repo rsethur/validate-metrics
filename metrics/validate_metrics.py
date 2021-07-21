@@ -19,9 +19,9 @@ def cli_auth(subs_id):
 # Use this auth if CLI auth has any issues - not used currently
 # auth credintials is the dict containing access token. Refer here for example of the token: https://github.com/marketplace/actions/azure-login
 def sp_auth(auth_credentials):
-    os.environ["AZURE_TENANT_ID"] = auth_credentials["tenant_id"]
-    os.environ["AZURE_CLIENT_ID"] = auth_credentials["client_id"]
-    os.environ["AZURE_CLIENT_SECRET"] = auth_credentials["client_secret"]
+    os.environ["AZURE_TENANT_ID"] = auth_credentials["TENANT_ID"]
+    os.environ["AZURE_CLIENT_ID"] = auth_credentials["CLIENT_ID"]
+    os.environ["AZURE_CLIENT_SECRET"] = auth_credentials["CLIENT_SECRET"]
     logging.log(msg=os.environ["AZURE_TENANT_ID"], level=logging.INFO)
     credentials = DefaultAzureCredential()
     logging.log(msg=credentials, level=logging.INFO)
