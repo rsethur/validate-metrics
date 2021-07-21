@@ -77,8 +77,11 @@ runs:
          
     - run: |
         echo tenant_id "${{ inputs.tenant_id }}"
-        source action-env/bin/activate
-        echo script metrics.validate_metrics --tenant_id "${{ inputs.tenant_id }}" --client_id "${{ inputs.client_id }}" --client_secret "${{ inputs.client_secret }}" --chart_name "${{ inputs.chart_name }}" --chart_save_path "${{ inputs.chart_save_path }}" --metric "${{ inputs.metric }}" --aggregation "${{ inputs.aggregation }}" --metrics_condition "${{ inputs.metrics_condition }}" --interval "${{ inputs.interval }}" --num_intervals "${{ inputs.num_intervals }}" --filter "${{ inputs.filter }}"  --threshold "${{ inputs.threshold }}" --resource_id "${{ inputs.resource_id }}"
-        python -m metrics.validate_metrics --tenant_id "${{ inputs.tenant_id }}" --client_id "${{ inputs.client_id }}" --client_secret "${{ inputs.client_secret }}" --chart_name "${{ inputs.chart_name }}" --chart_save_path "${{ inputs.chart_save_path }}" --metric "${{ inputs.metric }}" --aggregation "${{ inputs.aggregation }}" --metrics_condition "${{ inputs.metrics_condition }}" --interval "${{ inputs.interval }}" --num_intervals "${{ inputs.num_intervals }}" --filter "${{ inputs.filter }}"  --threshold "${{ inputs.threshold }}" --resource_id "${{ inputs.resource_id }}"
+        source action-env/bin/activate        
+        python -m metrics.validate_metrics --chart_name "${{ inputs.chart_name }}" --chart_save_path "${{ inputs.chart_save_path }}" --metric "${{ inputs.metric }}" --aggregation "${{ inputs.aggregation }}" --metrics_condition "${{ inputs.metrics_condition }}" --interval "${{ inputs.interval }}" --num_intervals "${{ inputs.num_intervals }}" --filter "${{ inputs.filter }}"  --threshold "${{ inputs.threshold }}" --resource_id "${{ inputs.resource_id }}"
       shell: bash
       working-directory: ${{ github.action_path }}
+      env:
+        TENANT_ID: ${{ inputs.tenant_id }}
+        CLIENT_ID: ${{ inputs.cliemt_id }}
+        CLIENT_SECRET: ${{ inputs.client_secret }}

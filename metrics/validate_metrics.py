@@ -28,16 +28,16 @@ def sp_auth(auth_credentials):
     # create client
     monitor_client = MonitorManagementClient(
         credentials,
-        auth_credentials["subs_id"])
+        auth_credentials["SUBS_ID"])
     return monitor_client
 
-def validate_metrics(tenant_id, client_id, client_secret, metric, aggregation, filter, interval, threshold, metrics_condition, resource_id, num_intervals = None, start_time=None, end_time=None, chart_name = None, chart_save_path = "chart-output/", allow_empty_metrics=True):
+def validate_metrics(metric, aggregation, filter, interval, threshold, metrics_condition, resource_id, num_intervals = None, start_time=None, end_time=None, chart_name = None, chart_save_path = "chart-output/", allow_empty_metrics=True):
     #todo: validate resource uri
     # Extract the subs id from the resource id. Sample resource id: "/subscriptions/xxxxxxx-1910-4a38-a7c7-84a39d4f42e0/resourceGroups/my-rg/providers/Microsoft.MachineLearningServices/workspaces/ws/onlineEndpoints/demo-endpoint"
     logging.info(f"Resource id: {resource_id}")
     subs_id = resource_id.split("/")[2]
     #monitor_client = cli_auth(subs_id)
-    auth_credentials = {"tenant_id":tenant_id, "client_id": client_id, "client_secret": client_secret, "subs_id":subs_id}
+    auth_credentials = {"TENANT_ID":os.environ["TENANT_ID"], "CLIENT_ID": os.environ["CLIENT_ID"], "CLIENT_SECRET": os.environ["CLIENT_SECRET"], "SUBS_ID":subs_id}
     monitor_client = sp_auth(auth_credentials)
     
     
@@ -160,9 +160,9 @@ def main():
             return None
         return int(val)
     parser = argparse.ArgumentParser()    
-    parser.add_argument('--tenant_id', type=str, required=True, help="azure tenant id for service principal auth")
-    parser.add_argument('--client_id', type=str, required=True, help="client id for service principal auth")
-    parser.add_argument('--client_secret', type=str, required=True, help="client secret for service principal auth")
+    #parser.add_argument('--tenant_id', type=str, required=True, help="azure tenant id for service principal auth")
+    #parser.add_argument('--client_id', type=str, required=True, help="client id for service principal auth")
+    #parser.add_argument('--client_secret', type=str, required=True, help="client secret for service principal auth")
     parser.add_argument('--metric', type=str, required=True, help="name of the metric")
     parser.add_argument('--aggregation', type=str, required=True, help="type of aggregation")
     parser.add_argument('--metrics_condition', type=str, required=True,choices=["lte","gte"], help="condition to compare metrics value and threshold: allowed lte (less than equals) and gte (greater tha equals)")
@@ -180,7 +180,7 @@ def main():
     print(args)
     logging.basicConfig(level=logging.INFO)
     logging.getLogger("azure").setLevel(logging.WARNING)
-    validate_metrics(tenant_id=args.tenant_id, client_id=args.client_id, client_secret=args.client_secret, metric=args.metric, aggregation=args.aggregation, filter=args.filter, interval=args.interval, threshold=args.threshold, metrics_condition=args.metrics_condition, resource_id=args.resource_id, num_intervals=args.num_intervals, start_time=args.start_time, end_time=args.end_time, chart_name=args.chart_name,chart_save_path=args.chart_save_path, allow_empty_metrics=args.allow_empty_metrics)
+    validate_metrics(metric=args.metric, aggregation=args.aggregation, filter=args.filter, interval=args.interval, threshold=args.threshold, metrics_condition=args.metrics_condition, resource_id=args.resource_id, num_intervals=args.num_intervals, start_time=args.start_time, end_time=args.end_time, chart_name=args.chart_name,chart_save_path=args.chart_save_path, allow_empty_metrics=args.allow_empty_metrics)
 
 if __name__ == '__main__':
     main()
