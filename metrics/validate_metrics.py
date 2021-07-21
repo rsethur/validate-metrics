@@ -172,7 +172,7 @@ def main():
     print(args)
     logging.basicConfig(level=logging.INFO)
     logging.getLogger("azure").setLevel(logging.WARNING)
-    validate_metrics(metric=args.metric, aggregation=args.aggregation, filter=args.filter, interval=args.interval, threshold=args.threshold, metrics_condition=args.metrics_condition, resource_id=args.resource_id, num_intervals=args.num_intervals, start_time=args.start_time, end_time=args.end_time, chart_name=args.chart_name,chart_save_path=args.chart_save_path, allow_empty_metrics=args.allow_empty_metrics)
+    validate_metrics(tenant_id=args.tenant_id, client_id=args.client_id, client_secret=args.client_secret, metric=args.metric, aggregation=args.aggregation, filter=args.filter, interval=args.interval, threshold=args.threshold, metrics_condition=args.metrics_condition, resource_id=args.resource_id, num_intervals=args.num_intervals, start_time=args.start_time, end_time=args.end_time, chart_name=args.chart_name,chart_save_path=args.chart_save_path, allow_empty_metrics=args.allow_empty_metrics)
 
 if __name__ == '__main__':
     main()
