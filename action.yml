@@ -1,6 +1,15 @@
 name: 'validate-metrics'
 description: 'Validate metrics from Azure Monitor'
 inputs:
+  tenant_id:
+    description: azure tenant id for service principal auth
+    required: True
+  client_id:
+    description: client id for service principal auth
+    required: True
+  client_secret:
+    description: client secret for service principal auth
+    required: True
   metric:
     description: name of the metric
     required: True
