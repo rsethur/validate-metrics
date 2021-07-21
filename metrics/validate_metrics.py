@@ -38,7 +38,7 @@ def validate_metrics(tenant_id, client_id, client_secret, metric, aggregation, f
     subs_id = resource_id.split("/")[2]
     #monitor_client = cli_auth(subs_id)
     auth_credentials = {"tenant_id":tenant_id, "client_id": client_id, "client_secret": client_secret, "subs_id":subs_id}
-    monitor_client = sp_auth(subs_id)
+    monitor_client = sp_auth(auth_credentials)
     
     
     logging.info(f"Metric: {metric}, Aggregation: {aggregation}, Interval: {interval}")
