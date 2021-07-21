@@ -38,6 +38,8 @@ def validate_metrics(metric, aggregation, filter, interval, threshold, metrics_c
     subs_id = resource_id.split("/")[2]
     #monitor_client = cli_auth(subs_id)
     auth_credentials = {"TENANT_ID":os.environ["TENANT_ID"], "CLIENT_ID": os.environ["CLIENT_ID"], "CLIENT_SECRET": os.environ["CLIENT_SECRET"], "SUBS_ID":subs_id}
+    tenant_id = os.environ["TENANT_ID"]
+    logging.info(f"Tenant id: {tenant_id}")
     monitor_client = sp_auth(auth_credentials)
     
     
