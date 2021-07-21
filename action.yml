@@ -1,15 +1,6 @@
 name: 'validate-metrics'
 description: 'Validate metrics from Azure Monitor'
 inputs:
-  tenant_id:
-    description: azure tenant id for service principal auth
-    required: True
-  client_id:
-    description: client id for service principal auth
-    required: True
-  client_secret:
-    description: client secret for service principal auth
-    required: True
   metric:
     description: name of the metric
     required: True
@@ -81,7 +72,3 @@ runs:
         python -m metrics.validate_metrics --chart_name "${{ inputs.chart_name }}" --chart_save_path "${{ inputs.chart_save_path }}" --metric "${{ inputs.metric }}" --aggregation "${{ inputs.aggregation }}" --metrics_condition "${{ inputs.metrics_condition }}" --interval "${{ inputs.interval }}" --num_intervals "${{ inputs.num_intervals }}" --filter "${{ inputs.filter }}"  --threshold "${{ inputs.threshold }}" --resource_id "${{ inputs.resource_id }}"
       shell: bash
       working-directory: ${{ github.action_path }}
-      env:
-        TENANT_ID: ${{ inputs.tenant_id }}
-        CLIENT_ID: ${{ inputs.client_id }}
-        CLIENT_SECRET: ${{ inputs.client_secret }}
