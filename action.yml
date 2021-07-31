@@ -47,41 +47,30 @@ inputs:
 #   random-number:
 #     description: "Random number"
 #     value: ${{ steps.random-number-generator.outputs.random-id }}
-runs:
+runs:  
   using: "composite"
   steps:
     - name: create venv if it does not exist
       run: |
         pip list
-        if [ ! -d "$action-env" ]; then
+        if [ ! -d "$$HOME/metrics-venv" ]; then
           echo "Creating venv"
-          python -m venv action-env
-          source action-env/bin/activate
+          python -m venv $HOME/metrics-venv
+          source $HOME/metrics-venv/bin/activate
           echo "install dependencies"
           pip install -r requirements.txt
         else
           echo "venv already exists"          
         fi
-        source action-env/bin/activate        
+        source $HOME/metrics-venv/bin/activate        
       shell: bash
       working-directory: ${{ github.action_path }}
 
-    - name: create chart dir
-      run: |
-        mkdir ~/charts
-        echo hello > ~/charts/world.txt
-      shell: bash
-         
     - run: |
         echo tenant_id "${{ inputs.tenant_id }}"
-        source action-env/bin/activate        
+        source $HOME/metrics-venv/bin/activate        
         python -m metrics.validate_metrics --chart_name "${{ inputs.chart_name }}" --chart_save_path "${{ inputs.chart_save_path }}" --metric "${{ inputs.metric }}" --aggregation "${{ inputs.aggregation }}" --metrics_condition "${{ inputs.metrics_condition }}" --interval "${{ inputs.interval }}" --num_intervals "${{ inputs.num_intervals }}" --filter "${{ inputs.filter }}"  --threshold "${{ inputs.threshold }}" --resource_id "${{ inputs.resource_id }}"
       shell: bash
       working-directory: ${{ github.action_path }}
-    
-    - name: dir
-      run: |          
-        ls -l ${{ inputs.chart_save_path }}
-      shell: bash
 
     
