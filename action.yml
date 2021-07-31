@@ -49,7 +49,12 @@ inputs:
 #     value: ${{ steps.random-number-generator.outputs.random-id }}
 runs:  
   using: "composite"
+  env:
+    test: "berrid"
   steps:
+    - run: |
+        echo **aaa  ${{ env.test }}
+      shell: bash
     - name: create venv if it does not exist
       run: |
         pip list        
