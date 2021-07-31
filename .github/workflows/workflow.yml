@@ -14,15 +14,20 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       
-      - name: Setup Python
-        uses: actions/setup-python@v2.1.4
-        with:
-          python-version: 3.7
-
       - name: azure login
         uses: azure/login@v1
         with:
           creds: ${{secrets.AZURE_TOKEN}}
+
+      - name: Setup Python
+        uses: actions/setup-python@v2.1.4
+        with:
+          python-version: 3.7
+      
+      - name: Install python dependencies
+        run: |
+          pip install -r requirements.txt
+          pip install -r test/requirements-test-extra.txt      
       
       - name: run unit tests
         run: |
