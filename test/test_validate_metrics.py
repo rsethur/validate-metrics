@@ -10,6 +10,9 @@ class TestValidateMetricsWithinThreshold(unittest.TestCase):
     def setUpClass(cls):
         cls.deployment_resource_id = "/subscriptions/5f08d643-1910-4a38-a7c7-84a39d4f42e0/resourceGroups/sethurg/providers/Microsoft.MachineLearningServices/workspaces/sethucanary/onlineEndpoints/demo-endpoint/deployments/blue"
         cls.endpt_resource_id = "/subscriptions/5f08d643-1910-4a38-a7c7-84a39d4f42e0/resourceGroups/sethurg/providers/Microsoft.MachineLearningServices/workspaces/sethucanary/onlineEndpoints/demo-endpoint"
+        logging.basicConfig(level=logging.INFO)
+        logging.getLogger("azure").setLevel(logging.WARNING)
+        logging.getLogger("vcr").setLevel(logging.WARNING)
 
     @vcr.use_cassette("test/metrics_vcr/test_simple_metric_memory_within_threshold.yaml")
     def test_simple_metric_memory_within_threshold(self):        
@@ -52,8 +55,5 @@ class TestValidateMetricsWithinThreshold(unittest.TestCase):
         ret = os.system(cmd)
         self.assertEqual(ret, 0)
             
-if __name__ == '__main__':
-    logging.basicConfig(level=logging.INFO)
-    logging.getLogger("azure").setLevel(logging.WARNING)
-    logging.getLogger("vcr").setLevel(logging.WARNING)
+if __name__ == '__main__':    
     unittest.main()

@@ -22,9 +22,7 @@ def sp_auth(auth_credentials):
     os.environ["AZURE_TENANT_ID"] = auth_credentials["TENANT_ID"]
     os.environ["AZURE_CLIENT_ID"] = auth_credentials["CLIENT_ID"]
     os.environ["AZURE_CLIENT_SECRET"] = auth_credentials["CLIENT_SECRET"]
-    logging.log(msg=os.environ["AZURE_TENANT_ID"], level=logging.INFO)
     credentials = DefaultAzureCredential()
-    logging.log(msg=credentials, level=logging.INFO)
     # create client
     monitor_client = MonitorManagementClient(
         credentials,
@@ -36,11 +34,14 @@ def validate_metrics(metric, aggregation, filter, interval, threshold, metrics_c
     # Extract the subs id from the resource id. Sample resource id: "/subscriptions/xxxxxxx-1910-4a38-a7c7-84a39d4f42e0/resourceGroups/my-rg/providers/Microsoft.MachineLearningServices/workspaces/ws/onlineEndpoints/demo-endpoint"
     logging.info(f"Resource id: {resource_id}")
     subs_id = resource_id.split("/")[2]
-    #monitor_client = cli_auth(subs_id)
-    auth_credentials = {"TENANT_ID":os.environ["TENANT_ID"], "CLIENT_ID": os.environ["CLIENT_ID"], "CLIENT_SECRET": os.environ["CLIENT_SECRET"], "SUBS_ID":subs_id}
-    tenant_id = os.environ["TENANT_ID"]
-    logging.info(f"Tenant id: {tenant_id}")
-    monitor_client = sp_auth(auth_credentials)
+    
+    # if inputs needed for service principal auth is not present, then fallback to cli auth
+    if os.environ.get('TENANT_ID') and os.environ.get('CLIENT_ID') and os.environ.get('CLIENT_SECRET'):        
+        auth_credentials = {"TENANT_ID":os.environ["TENANT_ID"], "CLIENT_ID": os.environ["CLIENT_ID"], "CLIENT_SECRET": os.environ["CLIENT_SECRET"], "SUBS_ID":subs_id}        
+        monitor_client = sp_auth(auth_credentials)
+    else:
+        logging.info("falling back on cli auth")
+        monitor_client = cli_auth(subs_id)
     
     
     logging.info(f"Metric: {metric}, Aggregation: {aggregation}, Interval: {interval}")
@@ -162,9 +163,6 @@ def main():
             return None
         return int(val)
     parser = argparse.ArgumentParser()    
-    #parser.add_argument('--tenant_id', type=str, required=True, help="azure tenant id for service principal auth")
-    #parser.add_argument('--client_id', type=str, required=True, help="client id for service principal auth")
-    #parser.add_argument('--client_secret', type=str, required=True, help="client secret for service principal auth")
     parser.add_argument('--metric', type=str, required=True, help="name of the metric")
     parser.add_argument('--aggregation', type=str, required=True, help="type of aggregation")
     parser.add_argument('--metrics_condition', type=str, required=True,choices=["lte","gte"], help="condition to compare metrics value and threshold: allowed lte (less than equals) and gte (greater tha equals)")
