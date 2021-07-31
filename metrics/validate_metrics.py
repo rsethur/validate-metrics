@@ -114,6 +114,7 @@ def validate_metrics(metric, aggregation, filter, interval, threshold, metrics_c
             if chart_name is not None:
                 if not os.path.exists(chart_save_path):
                     os.makedirs(chart_save_path)
+                logging.info("***chart path: "+ chart_save_path)
                 plt.savefig(os.path.join(chart_save_path, chart_name))
     if threshold_breached:
         raise Exception("Threshold breached!")

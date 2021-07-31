@@ -78,5 +78,10 @@ runs:
         python -m metrics.validate_metrics --chart_name "${{ inputs.chart_name }}" --chart_save_path "~charts/${{ inputs.chart_save_path }}" --metric "${{ inputs.metric }}" --aggregation "${{ inputs.aggregation }}" --metrics_condition "${{ inputs.metrics_condition }}" --interval "${{ inputs.interval }}" --num_intervals "${{ inputs.num_intervals }}" --filter "${{ inputs.filter }}"  --threshold "${{ inputs.threshold }}" --resource_id "${{ inputs.resource_id }}"
       shell: bash
       working-directory: ${{ github.action_path }}
+    
+    - name: dir
+      run: |          
+        ls -l ~/charts
+      shell: bash
 
     
