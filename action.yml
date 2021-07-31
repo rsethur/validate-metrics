@@ -52,8 +52,8 @@ runs:
   steps:
     - name: create venv if it does not exist
       run: |
-        pip list
-        if [ ! -d "$$HOME/metrics-venv" ]; then
+        pip list        
+        if [ ! -d "$HOME/metrics-venv" ]; then
           echo "Creating venv"
           python -m venv $HOME/metrics-venv
           source $HOME/metrics-venv/bin/activate
