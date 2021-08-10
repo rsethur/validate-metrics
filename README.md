@@ -1,7 +1,7 @@
 ![unit-test](https://github.com/rsethur/validate-metrics/workflows/unit-test/badge.svg)
 ![integration-test](https://github.com/rsethur/validate-metrics/workflows/integration-test/badge.svg)
 
-# GitHub Action for validating if Azure monitor metrics is within threshold
+# GitHub Action for validating if Azure monitor metrics are within threshold
 
 Validate if the azure monitor metrics for a Azure resource is within a given threshold. For example, you can validate if Avg CPU utilization is within a threshold of 30% for a given timeframe. This action will be useful for CI/CD flows where metrics can be used a validation gate.
 
