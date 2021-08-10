@@ -11,7 +11,7 @@ Using the below example you can check if the request latency metric is less than
 
 
 ```yaml
-- name: Test memory within threshold
+- name: Test request latency within threshold
   uses: rsethur/validate-metrics@v1    
   with:
       #resource id of the resource for which you want to validate the metrics. Below is an e.g. of Azure ML MAnaged endpoints
