@@ -1,0 +1,59 @@
+name: integration-test
+on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - '**.md'
+  pull_request:
+    paths-ignore:
+      - '**.md'
+env:
+  resource_id: /subscriptions/6560575d-fa06-4e7d-95fb-f962e74efd7a/resourceGroups/saferollout/providers/Microsoft.MachineLearningServices/workspaces/saferollout/onlineEndpoints/gpt-2/deployments/blue
+  ws: saferollout
+  rg: saferollout
+  subs: 6560575d-fa06-4e7d-95fb-f962e74efd7a
+
+jobs:
+  test:
+    runs-on: ubuntu-latest    
+    steps:
+      - uses: actions/checkout@v2
+      
+      - name: azure login
+        uses: azure/login@v1
+        with:
+          creds: ${{secrets.AZURE_CREDENTIALS}}
+      
+      - name: Set defaults
+        run: |
+            az config set defaults.workspace=${{ env.ws }}
+            az config set defaults.group=${{ env.rg }}
+            az account set -s ${{ env.subs }} 
+
+      - name: Setup Python
+        uses: actions/setup-python@v2.1.4
+        with:
+          python-version: 3.7
+      
+      - name: test-memory-within-threshold
+        uses: ./
+        continue-on-error: false
+        with:
+          chart_name: "Validate memory utilization within threshold"
+          chart_save_path: "/home/runner/chart-output/validate-memory-util"
+          metric: MemoryUtilization
+          aggregation: Average
+          metrics_condition: lte
+          interval: PT1M
+          num_intervals: 4         
+          threshold: 30
+          resource_id: ${{ env.resource_id }}
+        env:
+          AZURE_CREDENTIALS: ${{secrets.AZURE_CREDENTIALS}}          
+    
+      - uses: actions/upload-artifact@v2
+        with:
+          name: validate-memory-chart
+          path: "/home/runner/chart-output/validate-memory-util"
+      

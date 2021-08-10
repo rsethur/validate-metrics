@@ -9,6 +9,13 @@ from datetime import datetime,timezone, timedelta
 from azure.mgmt.monitor import MonitorManagementClient
 from azure.identity import DefaultAzureCredential, AzureCliCredential
 
+#env variable name to get Azure credentials, a json containing attributes needed for service principal authenticaiton. See here for more details: https://github.com/marketplace/actions/azure-login#configure-deployment-credentials
+AZURE_CREDENTIALS = 'AZURE_CREDENTIALS'
+CLIENT_ID = "clientId"
+CLIENT_SECRET = "clientSecret"
+TENANT_ID = "tenantId"
+SUBS_ID = "subscriptionId"
+
 def cli_auth(subs_id):    
     credentials = AzureCliCredential()
     # create client
@@ -19,31 +26,33 @@ def cli_auth(subs_id):
 # Use this auth if CLI auth has any issues - not used currently
 # auth credintials is the dict containing access token. Refer here for example of the token: https://github.com/marketplace/actions/azure-login
 def sp_auth(auth_credentials):
-    os.environ["AZURE_TENANT_ID"] = auth_credentials["TENANT_ID"]
-    os.environ["AZURE_CLIENT_ID"] = auth_credentials["CLIENT_ID"]
-    os.environ["AZURE_CLIENT_SECRET"] = auth_credentials["CLIENT_SECRET"]
+    os.environ["AZURE_TENANT_ID"] = auth_credentials[TENANT_ID]
+    os.environ["AZURE_CLIENT_ID"] = auth_credentials[CLIENT_ID]
+    os.environ["AZURE_CLIENT_SECRET"] = auth_credentials[CLIENT_SECRET]
     credentials = DefaultAzureCredential()
     # create client
     monitor_client = MonitorManagementClient(
         credentials,
-        auth_credentials["SUBS_ID"])
+        auth_credentials[SUBS_ID])
     return monitor_client
 
 def validate_metrics(metric, aggregation, filter, interval, threshold, metrics_condition, resource_id, num_intervals = None, start_time=None, end_time=None, chart_name = None, chart_save_path = "chart-output/", allow_empty_metrics=True):
-    #todo: validate resource uri
-    # Extract the subs id from the resource id. Sample resource id: "/subscriptions/xxxxxxx-1910-4a38-a7c7-84a39d4f42e0/resourceGroups/my-rg/providers/Microsoft.MachineLearningServices/workspaces/ws/onlineEndpoints/demo-endpoint"
-    logging.info(f"Resource id: {resource_id}")
-    subs_id = resource_id.split("/")[2]
+    #todo: validate resource uri    
+    logging.info(f"Resource id: {resource_id}")    
     
     # if inputs needed for service principal auth is not present, then fallback to cli auth
-    if os.environ.get('TENANT_ID') and os.environ.get('CLIENT_ID') and os.environ.get('CLIENT_SECRET'):        
-        auth_credentials = {"TENANT_ID":os.environ["TENANT_ID"], "CLIENT_ID": os.environ["CLIENT_ID"], "CLIENT_SECRET": os.environ["CLIENT_SECRET"], "SUBS_ID":subs_id}        
-        monitor_client = sp_auth(auth_credentials)
+    if os.environ.get(AZURE_CREDENTIALS):
+        auth_credentials = json.loads(os.environ.get(AZURE_CREDENTIALS))
+        if auth_credentials[TENANT_ID] and auth_credentials[CLIENT_ID] and auth_credentials[CLIENT_SECRET] and auth_credentials[SUBS_ID]:       
+            monitor_client = sp_auth(auth_credentials)
+        else:
+            raise Exception(f"{AZURE_CREDENTIALS} needs to be a JSON string containing {CLIENT_ID}, {CLIENT_SECRET}, {SUBS_ID} and {TENANT_ID}")        
     else:
-        logging.info("falling back on cli auth")
+        logging.info(f"Environment variable {AZURE_CREDENTIALS} not found. Falling back on CLI auth.")
+        # Extract the subs id from the resource id. Sample resource id: "/subscriptions/xxxxxxx-1910-4a38-a7c7-84a39d4f42e0/resourceGroups/my-rg/providers/Microsoft.MachineLearningServices/workspaces/ws/onlineEndpoints/demo-endpoint"
+        subs_id = resource_id.split("/")[2]
         monitor_client = cli_auth(subs_id)
-    
-    
+        
     logging.info(f"Metric: {metric}, Aggregation: {aggregation}, Interval: {interval}")
     if filter is not None:
         logging.info(f"Filter: {filter}")
