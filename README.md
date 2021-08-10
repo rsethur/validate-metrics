@@ -55,9 +55,12 @@ This action validates if your threshold conditions are met and optionally genera
     python-version: 3.7
 ```
 
-2. Authentication credentials input for the action: The action support both service principal auth and CLI auth
+2. Create a secret called AZURE_CREDENTIALS following the instructions [here](https://github.com/marketplace/actions/azure-login#configure-deployment-credentials).
 
-    a. To use service principal auth first create a secret called AZURE_CREDENTIALS following the instructions [here](https://github.com/marketplace/actions/azure-login#configure-deployment-credentials). Then similar to the above example, pass the AZURE_CREDENTIALS as an environment variable to the action.
+## Authentication credentials input for the action
+The action support both service principal auth and CLI auth
+
+    a. To use service principal pass the AZURE_CREDENTIALS as an environment variable to the action (like in the example in the top).
     
     b. If you want to use CLI auth, perform cli auth in your workflow before using this action. example
     ```yaml
@@ -68,9 +71,12 @@ This action validates if your threshold conditions are met and optionally genera
         
     - name: Set defaults
       run: |
-        az config set defaults.workspace=${{ env.ws }}
-        az config set defaults.group=${{ env.rg }}
-        az account set -s ${{ env.subs }} 
+        # If you are using azure ml, then set azure ml workspace name
+        az config set defaults.workspace=<my-workspace-name>
+        # set default resource group
+        az config set defaults.group=<my-rg>
+        #set default subs
+        az account set -s <my-subs-id>
     ```
 
 You can see exampels of both of the above options in the [integration test workflow](.github/workflows/integration-test.yml)
