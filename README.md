@@ -54,25 +54,28 @@ This action validates if your threshold conditions are met and optionally genera
   with:
     python-version: 3.7
 ```
+
 2. Authentication credentials input for the action: The action support both service principal auth and CLI auth
-a. To use service principal auth first create a secret called AZURE_CREDENTIALS following the instructions [here](https://github.com/marketplace/actions/azure-login#configure-deployment-credentials). Then similar to the above example, pass the AZURE_CREDENTIALS as an environment variable to the action.
-b. If you want to use CLI auth, perform cli auth in your workflow before using this action. example
-```yaml
-- name: azure login
-  uses: azure/login@v1
-  with:
-    creds: ${{secrets.AZURE_CREDENTIALS}}
-      
-- name: Set defaults
-  run: |
-    az config set defaults.workspace=${{ env.ws }}
-    az config set defaults.group=${{ env.rg }}
-    az account set -s ${{ env.subs }} 
-```
+
+    a. To use service principal auth first create a secret called AZURE_CREDENTIALS following the instructions [here](https://github.com/marketplace/actions/azure-login#configure-deployment-credentials). Then similar to the above example, pass the AZURE_CREDENTIALS as an environment variable to the action.
+    
+    b. If you want to use CLI auth, perform cli auth in your workflow before using this action. example
+    ```yaml
+    - name: azure login
+      uses: azure/login@v1
+      with:
+        creds: ${{secrets.AZURE_CREDENTIALS}}
+        
+    - name: Set defaults
+      run: |
+        az config set defaults.workspace=${{ env.ws }}
+        az config set defaults.group=${{ env.rg }}
+        az account set -s ${{ env.subs }} 
+    ```
 
 You can see exampels of both of the above options in the [integration test workflow](.github/workflows/integration-test.yml)
 
-## Inputs
+## Inputs reference
 
 | Input | Required | Default | Description |
 | ----- | -------- | ------- | ----------- |
@@ -90,7 +93,7 @@ You can see exampels of both of the above options in the [integration test workf
 | chart_name | - | chart | file name for chart to save |
 | chart_save_path  | - | chart_output  | path to save charts |
 
-## Environment variables
+## Environment variables reference
 | Input | Required | Default | Description |
 | ----- | -------- | ------- | ----------- |
 | AZURE_CREDENTIALS | - | - | Needed if you want the action to use service principal authentication instead of CLI auth. First create a secret called AZURE_CREDENTIALS following the instructions [here](https://github.com/marketplace/actions/azure-login#configure-deployment-credentials). Then pass the AZURE_CREDENTIALS as an environment variable to the action |
