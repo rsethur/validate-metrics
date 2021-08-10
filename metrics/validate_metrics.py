@@ -184,7 +184,7 @@ def main():
     parser.add_argument('--num_intervals', type=nullable_int, required=False, help="required only when start and end date not provided. then this pulls the metrics for num_intervals time from current time")
     parser.add_argument('--allow_empty_metrics', type=bool, default=True, required=False, help="if False will throw error incase metrics are not available for the given duration")
     parser.add_argument('--chart_name', type=nullable_string, required=False, help="file name for chart to save")
-    parser.add_argument('--chart_save_path', type=nullable_string, required=False, help="path to save the chart")
+    parser.add_argument('--chart_save_path', type=nullable_string, required=False, default = "chart-output/", help="path to save the chart")
     args = parser.parse_args()
     print(args)
     logging.basicConfig(level=logging.INFO)

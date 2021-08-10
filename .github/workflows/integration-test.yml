@@ -16,7 +16,8 @@ env:
   subs: 6560575d-fa06-4e7d-95fb-f962e74efd7a
 
 jobs:
-  test:
+  sp-auth:
+    name: Integration test using SP auth
     runs-on: ubuntu-latest    
     steps:
       - uses: actions/checkout@v2
@@ -46,7 +47,18 @@ jobs:
       - uses: actions/upload-artifact@v2
         with:
           name: validate-memory-chart
-          path: "/home/runner/chart-output/validate-memory-util"
+          path: "/home/runner/chart-output/validate-memory-util"      
+  
+  cli-auth:
+    name: Integration test using CLI auth
+    runs-on: ubuntu-latest    
+    steps:
+      - uses: actions/checkout@v2
+      
+      - name: Setup Python
+        uses: actions/setup-python@v2.1.4
+        with:
+          python-version: 3.7      
 
       # Test: If AZURE_CREDENTIALS is not passed, the action will fallback on CLI auth
       - name: azure login
