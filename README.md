@@ -79,7 +79,7 @@ The action support both service principal auth and CLI auth
         az account set -s <my-subs-id>
     ```
 
-You can see exampels of both of the above options in the [integration test workflow](.github/workflows/integration-test.yml)
+You can see examples of both of the above options in the [integration test workflow](.github/workflows/integration-test.yml)
 
 ## Inputs reference
 
