@@ -5,17 +5,17 @@ inputs:
     description: name of the metric
     required: True
   aggregation:
-    description: type of aggregation
+    description: "type of aggregation. Typical supported ones by the resources: Average, Maximum, Minimum"
     required: True
   metrics_condition:
     description: condition to compare metrics value and threshold, allowed lte (less than equals) and gte (greater than equals)
     required: True
   interval:
-    description: "Supported intervals will be in format e.g. for minutes: PT1M, for hours: PT12H,for day: P1D. More examples here: https://docs.microsoft.com/en-us/rest/api/monitor/metricdefinitions/list"
+    description: "supported intervals will be in format e.g. for minutes: PT1M, for hours: PT12H,for day: P1D. More examples here: https://docs.microsoft.com/en-us/rest/api/monitor/metricdefinitions/list"
     required: True
     default: PT1M
   threshold:
-    description: "Threshold value to compare the metric with (a number)"
+    description: "threshold value to compare the metric with (a number)"
     required: True
   resource_id:
     description: arm resource id of the resource
