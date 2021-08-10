@@ -44,7 +44,9 @@ inputs:
     description: path to save charts
     required: False
     default: chart_output
-
+branding:
+  icon: activity
+  color: red
 runs:  
   using: "composite"
   steps:
