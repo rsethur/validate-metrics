@@ -3,11 +3,13 @@
 
 # GitHub Action for validating if Azure monitor metrics are within threshold
 
-Validate if the azure monitor metrics for a Azure resource is within a given threshold. For example, you can validate if Avg CPU utilization is within a threshold of 30% for a given timeframe. This action will be useful for CI/CD flows where metrics can be used a validation gate.
+Validate if the azure monitor metrics for a Azure resource is within a given threshold. For example, you can validate if CPU utilization is less that 80% or the number of HTTP HTTP errors 4xx, 5xx) is less than a given threshold (say 10) in a given timeframe (say past 2 hours). If the threshold is breached, the action will fail, threreby breaking your release pipeline that uses this action. This action will be __useful for CI/CD workflows__ where metrics can be used a validation gate.
+
+__Note:__ You can use any metric that your Azure resource reports to Azure monitor(e.g. CPUUtilization, MemoryUtilization etc). As an example, the metrics that Azure ML's Managed endpoint supports are [here](https://docs.microsoft.com/en-us/azure/machine-learning/how-to-monitor-online-endpoints)
 
 ## Usage
 
-Using the below example you can check if the request latency metric is less than 80 milliseconds for a give timeframe for a given resource. If the condition is not met, the action will fail. You can use more complex filter conditions (see docs below). You can use any metric your resource supports (e.g. CPUUtilization, MemoryUtilization etc)
+Using the below example you can check if the request latency metric is less than 80 milliseconds for a given timeframe for a given resource. If the condition is not met, the action will fail. You can use more complex filter conditions (see docs below).
 
 
 ```yaml
