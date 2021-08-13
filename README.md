@@ -48,8 +48,12 @@ Using the below example you can check if the request latency metric is less than
 This action validates if your threshold conditions are met and optionally generates a chart. You can see from the chart that the threshold was breached
 ![chart](docs/sample-chart.png)
 
+This action also outputs a table in the workflow run output showing the metric values in the various time intervals and if the threshold was breached. Example output for the above:
+![tabular-output](docs/tabular-output.png)
+
+
 ## Prerequsites
-1. In your parent workflow, python needs to be installed. Example:
+1. In your github action parent workflow, python needs to be installed. Example:
 ```yaml
 - name: Setup Python
   uses: actions/setup-python@v2.1.4
