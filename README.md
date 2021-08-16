@@ -3,7 +3,7 @@
 
 # GitHub Action for validating if Azure monitor metrics are within threshold
 
-Validate if the Azure monitor metrics for a Azure resource is within a given threshold. For example, you can validate if number of  HTTP errors (4xx, 5xx) is less than a given threshold (say 10 errors) in a given timeframe (say past 2 hours). If the threshold is breached, the action will fail, threreby breaking your release pipeline that uses this action. This action will be __useful for CI/CD workflows__ where metrics can be used a validation gate.
+Validate if the Azure monitor metrics for a Azure resource is within a given threshold. For example, you can validate if number of  HTTP errors (4xx, 5xx) is less than a given threshold (say 10 errors) in a given timeframe (say past 2 hours). If the threshold is breached, the action will fail, threreby breaking your release pipeline that uses this action. This action will be __useful for CI/CD workflows__ where metrics can be used as a validation gate.
 
 __Note:__ You can use any metric that your Azure resource reports to Azure monitor(e.g. CPUUtilization, MemoryUtilization etc). As an example, the metrics that Azure ML's Managed endpoint supports are [here](https://docs.microsoft.com/en-us/azure/machine-learning/how-to-monitor-online-endpoints)
 
@@ -27,6 +27,7 @@ Using the below example you can check if the request latency metric is less than
       # what interval you want the metrics data for. In the below case it is 1 minute
       interval: PT1M
       # start & end time (see inputs section in this doc below for details on format)
+      # Note: instead you can also use num_intervals which will compute start and end time based on current time (see inputs section in this doc below for details on format)
       start_time: "02-21-2021 21:52:00"
       end_time: "02-21-2021 22:30:00"
       # what is the threshold value you want to compare each of the metric values against
@@ -100,7 +101,7 @@ You can see examples of both of the above options in the [integration test workf
 | start_time | - | - | date time in ISO 8601 format (default in UTC timezone) e.g 02-21-2021 21:14:00 |
 | end_time | - | - | date time in ISO 8601 format (default in UTC timezone) e.g 02-21-2021 21:14:00 |
 | filter | - | - | Azure monitor chart filter condition. e.g.: deployment eq 'blue' and statusCodeClass ne '2xx'. For more information on filter syntax refer [here]( https://docs.microsoft.com/en-us/rest/api/monitor/metrics/list) |
-| num_intervals | - | - | required only when start and end date not provided. The metrics are retrieived for num_intervals time from current time. For e.g. if interval is PT1M and num_intervals is 5, then 5 metric values are pulled. |
+| num_intervals | - | - | required only when start and end date not provided. The metrics are retrieived for num_intervals time from current time. For e.g. if interval is PT1M and num_intervals is 5, then metric values for past 5 mins are pulled. |
 | allow_empty_metrics | - | False | if False will throw error incase metrics are not available for the given duration |
 | chart_name | - | chart | file name for chart to save |
 | chart_save_path  | - | chart_output  | path to save charts |
