@@ -16,24 +16,32 @@ Using the below example you can check if the request latency metric is less than
 - name: Validate request latency within threshold
   uses: rsethur/validate-metrics@v1    
   with:
-      #resource id of the resource for which you want to validate the metrics. Below is an e.g. of Azure ML MAnaged endpoints
+      #resource id of the resource for which you want to validate the metrics. Below is an e.g. of Azure ML Managed endpoints
       resource_id: /subscriptions/xxxx/resourceGroups/xx/providers/Microsoft.MachineLearningServices/workspaces/xx/onlineEndpoints/xx/deployments/blue
-      # metric you want to validate
+      
+      # metric you want to validate. You can use any metric that your Azure resource reports to Azure monitor(e.g. CPUUtilization, MemoryUtilization etc)
       metric: RequestLatency_P90
+      
       # which aggregation of the metric you would like to compare (in this case Average)
       aggregation: Average
+      
       # what is the metrics condition to compare with threshold. In the below case it is "lesser than equal to"
       metrics_condition: lte
+      
       # what interval you want the metrics data for. In the below case it is 1 minute
       interval: PT1M
+      
       # start & end time (see inputs section in this doc below for details on format)
       # Note: instead you can also use num_intervals which will compute start and end time based on current time (see inputs section in this doc below for details on format)
       start_time: "02-21-2021 21:52:00"
       end_time: "02-21-2021 22:30:00"
-      # what is the threshold value you want to compare each of the metric values against
+      
+      # what is the threshold value you want to compare each of the metric values against. Action will fail if threshold is breached
       threshold: 80
+      
       # (optional) name of the chart (PNG file will be created)
       chart_name: "Validate latency within threshold"
+      
       # (optional) which path to store the chart
       chart_save_path: "/home/runner/chart-output/validate-latency" 
   env:
@@ -56,28 +64,28 @@ This action also outputs a table in the workflow run output showing the metric v
 ## Authentication credentials input for the action
 The action supports service principal auth and CLI auth:
 
-    a. To use service principal pass the AZURE_CREDENTIALS as an environment variable to the action (like in the example in the top). To create the secret, follow the instructions
+a. To use service principal pass the AZURE_CREDENTIALS as an environment variable to the action (like in the example in the top). To create the secret, follow the instructions
 [here](https://github.com/marketplace/actions/azure-login#configure-deployment-credentials).
     
-    b. If you want to use CLI auth, perform cli auth in your workflow before using this action. You don't need to pass any credentials to the action. Example:
+b. If you want to use CLI auth, perform cli auth in your workflow before using this action. You don't need to pass any credentials to the action. Example:
    
-    ```yaml
-    - name: azure login
-      uses: azure/login@v1
-      with:
-        creds: ${{secrets.AZURE_CREDENTIALS}}
-        
-    - name: Set defaults
-      run: |
-        # If you are using azure ml, then set azure ml workspace name
-        az config set defaults.workspace=<my-workspace-name>
-        # set default resource group
-        az config set defaults.group=<my-rg>
-        #set default subs
-        az account set -s <my-subs-id>
-    
-    # now use the action without the environment variable AZURE_CREDENTIALS
-    ```
+  ```yaml
+  - name: azure login
+    uses: azure/login@v1
+    with:
+      creds: ${{secrets.AZURE_CREDENTIALS}}
+      
+  - name: Set defaults
+    run: |
+      # If you are using azure ml, then set azure ml workspace name
+      az config set defaults.workspace=<my-workspace-name>
+      # set default resource group
+      az config set defaults.group=<my-rg>
+      #set default subs
+      az account set -s <my-subs-id>
+  
+  # now use the action without the environment variable AZURE_CREDENTIALS
+  ```
 
 You can see examples of both of the above options in the [integration test workflow](.github/workflows/integration-test.yml)
 
