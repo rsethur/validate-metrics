@@ -53,23 +53,14 @@ This action also outputs a table in the workflow run output showing the metric v
 ![tabular-output](docs/tabular-output.png)
 
 
-## Prerequsites
-1. In your github action parent workflow, python needs to be installed. Example:
-```yaml
-- name: Setup Python
-  uses: actions/setup-python@v2.1.4
-  with:
-    python-version: 3.7
-```
-
-2. Create a secret called AZURE_CREDENTIALS following the instructions [here](https://github.com/marketplace/actions/azure-login#configure-deployment-credentials).
-
 ## Authentication credentials input for the action
-The action support both service principal auth and CLI auth
+The action supports service principal auth and CLI auth:
 
-    a. To use service principal pass the AZURE_CREDENTIALS as an environment variable to the action (like in the example in the top).
+    a. To use service principal pass the AZURE_CREDENTIALS as an environment variable to the action (like in the example in the top). To create the secret, follow the instructions
+[here](https://github.com/marketplace/actions/azure-login#configure-deployment-credentials).
     
-    b. If you want to use CLI auth, perform cli auth in your workflow before using this action. example
+    b. If you want to use CLI auth, perform cli auth in your workflow before using this action. You don't need to pass any credentials to the action. Example:
+   
     ```yaml
     - name: azure login
       uses: azure/login@v1
@@ -84,6 +75,8 @@ The action support both service principal auth and CLI auth
         az config set defaults.group=<my-rg>
         #set default subs
         az account set -s <my-subs-id>
+    
+    # now use the action without the environment variable AZURE_CREDENTIALS
     ```
 
 You can see examples of both of the above options in the [integration test workflow](.github/workflows/integration-test.yml)
